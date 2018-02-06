@@ -1,0 +1,110 @@
+ fpm -f -s dir -t rpm -n php --epoch 0 -v 7.1.8 --iteration 6.el7 -C /data/scripts/php -d 'libjpeg libpng freetype libxml2 zlib glibc glib2 bzip2 curl e2fsprogs openssl make  cmake libmcrypt readline libxslt' --before-install /data/scripts/php/before_install.sh --after-install /data/scripts/php/after_install.sh --after-remove /data/scripts/php/after_remove.sh --workdir /data/scripts/php etc usr
+
+
+###################  nginx
+ fpm -f -s dir -t rpm -n nginx --epoch 0 -v 1.12.1 --iteration 2.el7 -C /data/scripts/nginx -d 'openssl' --before-install /data/scripts/nginx/before_install.sh --after-install /data/scripts/nginx/after_install.sh --after-remove /data/scripts/nginx/after_remove.sh --workdir /data/scripts/nginx etc usr
+
+#########  supervisor
+ fpm -f -s dir -t rpm -n supervisor --epoch 0 -v 3.1.4 --iteration 1.el7 -C /data/scripts/supervisor -d 'openssl' --before-install /data/scripts/supervisor/before_install.sh --after-install /data/scripts/supervisor/after_install.sh --after-remove /data/scripts/supervisor/after_remove.sh --workdir /data/scripts/supervisor etc
+
+
+
+ 代码示例:
+ pm=dynamic
+ pm.max_children=20
+ pm.start_servers=5
+ pm.min_spare_servers=5
+ pm.max_spare_servers=20
+
+
+docker cp <containerId>:/file/path/within/container /host/path/target
+
+sudo docker build -t registry.cn-hangzhou.aliyuncs.com/jiyis/ms_basic:2.0.3 .
+sudo docker run -d -p 8333:80 -v /www/jiyi:/data/inno/miscroservice/ registry.cn-hangzhou.aliyuncs.com/jiyis/ms_basic:2.0.3
+
+sudo docker run --rm -it  registry.cn-hangzhou.aliyuncs.com/jiyis/rpmpackage:2.0.4 bash
+
+
+
+sudo docker exec -it 16c759fffa3a /bin/bash
+
+
+
+./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module  --with-http_realip_module --with-http_image_filter_module
+make  make
+make install
+
+
+
+./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --with-fpm-user=www --with-fpm-group=www --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir --enable-xml --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --enable-mbregex --enable-fpm --enable-mbstring --with-mcrypt --with-gd --enable-gd-jis-conv --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --enable-opcache --with-libmbfl --with-onig --enable-pdo --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-mysql --enable-mysqlnd-compression-support --with-pear --enable-maintainer-zts
+make
+
+
+
+从registry中拉取镜像：
+
+$ sudo docker pull registry.cn-hangzhou.aliyuncs.com/jiyis/rpmpackage:[镜像版本号]
+
+将镜像推送到registry：
+
+$ sudo docker login --username=linjiaxin897591495 registry.cn-hangzhou.aliyuncs.com
+$ sudo docker tag [ImageId] registry.cn-hangzhou.aliyuncs.com/jiyis/rpmpackage:[镜像版本号]
+$ sudo docker push registry.cn-hangzhou.aliyuncs.com/jiyis/rpmpackage:[镜像版本号]
+
+其中[ImageId],[镜像版本号]请你根据自己的镜像信息进行填写。
+
+
+
+$ sudo docker commit -m "Added json gem" -a "Kate Smith" 0b2616b0e5a8 ouruser/sinatra:v2
+4f177bd27a9ff0f6dc2a830403925b5360bfe0b93d476f7fc3231110e7f71b1c
+其中，-m表示一个commit message，-a 表示author的信息，指定创建的new iamge来自于container id 0b2616b0e5a8，此外还为新建的image定义一个组合名称ouruser/sinatra:v2。
+使用docker images可以看到新建的images
+
+
+
+1.启动super服务框架 ：supervisord -c /etc/supervisord.conf
+
+2.启动super服务客户端：supervisorctl start csft_pinyin
+
+3.启动nginx 服务：/usr/local/nginx/sbin/nginx
+
+
+
+docker-composer up -d (xxx,docker-compose.yaml第一行名字)
+docker-composer rm -f xxx
+
+
+
+sshpass -p 70S155 git clone ssh://pengfei.dong@git.patsnap.com/inno/project-pms/tree/master/tools
+
+
+git pull https://pengfei.dong:70S155@git.patsnap.com/inno/project-pms master
+
+git archive --remote=ssh://git.patsnap.com/inno/project-pms.git HEAD README.md
+
+
+php7安装memcached pdo_dblib ldap oci8 等扩展
+memcached:   yum install libmemcached libmemcached-devel
+ldap:        yum install openldap openldap-devel         ln -s /usr/lib64/libldap.so /usr/lib/
+pdo_dblib:   yum install freetds freetds-devel           ln -s /usr/lib64/libsybdb.so /usr/lib/
+oci8:
+
+orcale client  必须先安装
+http://download.oracle.com/otn/linux/instantclient/10205/oracle-instantclient-basic-10.2.0.5-1.x86_64.rpm?AuthParam=1507793109_4eb1ffd2ea7017d976578ca35f074f43
+http://download.oracle.com/otn/linux/instantclient/10205/oracle-instantclient-devel-10.2.0.5-1.x86_64.rpm?AuthParam=1507793161_434c635350e091fd200271b79f241836
+
+[root@localhost ~]# rpm -Uvh oracle-instantclient-basic-10.2.0.5-1.x86_64.rpm
+[root@localhost ~]# rpm -Uvh oracle-instantclient-devel-10.2.0.5-1.x86_64.rpm
+
+
+
+./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --enable-fpm --with-fpm-user=www  --with-fpm-group=www --enable-inline-optimization --disable-debug --disable-rpath --enable-shared  --enable-soap --with-libxml-dir --with-xmlrpc --with-openssl --with-mcrypt --with-mhash --with-pcre-regex --with-sqlite3 --with-zlib --enable-bcmath --with-iconv --with-bz2 --enable-calendar --with-curl --with-cdb --enable-dom --enable-exif --enable-fileinfo --enable-filter --with-pcre-dir --enable-ftp --with-gd --with-openssl-dir --with-jpeg-dir --with-png-dir --with-zlib-dir  --with-freetype-dir --enable-gd-native-ttf --enable-gd-jis-conv --with-gettext --with-gmp --with-mhash --enable-json --enable-mbstring --enable-mbregex --enable-mbregex-backtrack --with-libmbfl --with-onig --enable-pdo --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-zlib-dir --with-pdo-sqlite --with-readline --enable-session --enable-shmop --enable-simplexml --enable-sockets  --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-libxml-dir --with-xsl --enable-zip --enable-mysqlnd-compression-support --with-pear --enable-opcache
+
+
+
+ \
+
+
+./configure --prefix=/usr/local/php56 --with-config-file-path=/usr/local/php56/etc --with-fpm-user=www --with-fpm-group=www  --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir --enable-xml --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --enable-mbregex --enable-fpm --enable-mbstring --with-mcrypt --enable-ftp --with-gd --enable-gd-jis-conv --enable-gd-native-ttf --with-openssl --with-mhash --with-gettext --with-gmp --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --enable-opcache --with-libmbfl --with-onig --enable-pdo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-mysql --enable-mysqlnd-compression-support --with-pear
+
+
