@@ -1,5 +1,8 @@
 #!/bin/bash
 
+BASEDIR='/bigdisk/docs/php'
+HOME_DIR=$(pwd)
+
 #创建日志目录
 mkdir -p /opt/logs/supervisord
 
@@ -11,6 +14,27 @@ ln -s /usr/local/php/bin/php /usr/bin/php
 #crontab -r
 #line="* * * * * php /data/inno/miscroservice/artisan schedule:run >> /dev/null 2>&1"
 #(crontab -u root -l; echo "$line" ) | crontab -u root -
+
+declare -A ENV
+while read line; do
+  name=`echo $line|awk -F '=' '{print $1}'`
+  value=`echo $line|awk -F '=' '{print $2}'`
+  [ -n "$name" ] && ENV["$name"]=$value
+done
+
+#replace placeholder by env
+sed -i \
+        -e "s|{{NG_PC_PORT}}|${ENV['NG_PC_PORT']}|g" \
+        -e "s|{{NG_PC_DOMAIN}}|${ENV['NG_PC_DOMAIN']}|g" \
+        -e "s|{{NG_PC_PATH}}|${ENV['NG_PC_PATH']}|g" \
+        /usr/local/nginx/conf/conf.d/pc.conf
+
+sed -i \
+        -e "s|{{NG_MOBILE_PORT}}|${ENV['NG_MOBILE_PORT']}|g" \
+        -e "s|{{NG_MOBILE_DOMAIN}}|${ENV['NG_MOBILE_DOMAIN']}|g" \
+        -e "s|{{NG_MOBILE_PATH}}|${ENV['NG_MOBILE_PATH']}|g" \
+        /usr/local/nginx/conf/conf.d/mobile.conf
+
 
 #fix locale bug
 tee /etc/environment <<- 'EOF'
